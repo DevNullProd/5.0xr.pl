@@ -3,7 +3,13 @@
   <div id="app">
     <div id="countdown_container">
       <h2 id="countdown_title">Countdown to<br/>50 Million XRP Ledgers!</h2>
-      <div id="subcountdown_container">
+      <h4 id="countdown_subtitle">A XRP Community Celebration</h4>
+
+      <div class="text-center" v-if="!have_current_ledger">
+        <b-spinner />
+      </div>
+
+      <div id="subcountdown_container" v-if="have_current_ledger">
         <div class='subcountdown'>
           <div class='subcountdown_counter'>{{countdown_days}}</div>
           <div class='subcountdown_label'>
@@ -48,12 +54,12 @@
         few hours</b> and use the validation rate in combination with the remaining ledgers to project
         forward.<br/><br/>
 
-        You will see jumpiness though as we sync ledgers from the live network and the close
-        time varies... we apologize for the inconvenience...
+        You will see jumpiness as we sync ledgers from the live network and the close
+        time varies... <b>we apologize for any inconvenience...</b>
         </p>
       </b-modal>
 
-      <div id="ledger_status_container">
+      <div id="ledger_status_container" v-if="have_current_ledger">
         <span id="current_ledger">Current Ledger: {{current_ledger | delim}}</span><br/>
         <span id="remaining_ledgers">Remaining: {{remaining_ledgers | delim}} Ledgers</span><br/>
         <span id="projected_time">Projected Time: {{projected_time}}</span>
@@ -62,41 +68,96 @@
     </div>
 
     <div id="contest_entry">
-      <div>To celebrate 50 Million, we're giving away 50 XRP to 50 lucky winners!</div>
-      <div>To enter this contest simply fill out this form with a valid email and valid (already activated) XRP ledger address!</div>
+      <h2>To celebrate 50 Million, <b>we're giving away 50 XRP to 50 lucky winners!</b></h2>
+      <div>To enter this contest simply fill out this form with a valid email and valid (<b>already activated</b>) XRP ledger address!</div>
+
+       <b-container fluid class="p-3">
+         <b-row class="m-3">
+           <b-col cols=3>
+             <label for="contest_email">Email</label>
+           </b-col>
+
+           <b-col>
+             <b-form-input id="contest_email" v-model="contest_email" placeholder="Enter your email" type="email" :state="contest_email_valid"></b-form-input>
+           </b-col>
+         </b-row>
+
+         <b-row class="m-3">
+           <b-col cols=3>
+             <label for="contest_account">XRP Account</label>
+           </b-col>
+
+           <b-col>
+             <b-form-input id="contest_account" v-model="contest_account" placeholder="Enter your XRP account" :state="contest_account_valid"></b-form-input>
+           </b-col>
+         </b-row>
+
+         <b-row>
+           <b-col>
+             <b-button :disabled="!contest_email_valid || !contest_account_valid">Submit</b-button>
+           </b-col>
+         </b-row>
+       </b-container>
+
+       <div id="contest_rules"  v-b-modal.contest_rules_modal>
+         By submitting you are agreeing to the mumbo-jumbo
+       </div>
+
+      <b-modal id="contest_rules_modal" title="Contest Rules" ok-only>
+        <p><i>You're actually reading this?!</i>&nbsp;<b>Awesome</b>!</p>
+
+        <ul>
+        <li>To have a chance at winning the prize amount, simply fill out the form on this page with a <b>valid email and valid XRP address</b></li>
+        <li>For an email to be valid it must be able to accept incoming mail from systems related to our contest and allow you to follow links sent through such</li>
+        <li>Emails from temporary and/or masking services will be rejected (eg. Guerrilla Mail, temp-mail, etc)</li>
+        <li>For an XRP account to be valid it must already be activated and be in good state (satisfying minimum reserve requirements) upon contest entry</li>
+        <li><b>ONLY ONE ENTRY PER INDIVIDUAL</b> - If we catch multiple entries being submitted on the behalf of one or more individuals they will all be rejected!</li>
+        <li>Upon arrival of the 50 Million'th ledger, no more contest entries will be accepted and we will randomly pick 50 winners from the pool of valid entries</li>
+        <li>Winners will be sent 50 XRP each via the specified accounts shortly after</li>
+        <li><b>By entering this contest, you absolve the organizers of any and all legal and financial liabilities</b>. You are verifying that you are of legal age to participate in these sorts of contests and no other legal-barriers prohibit you from participating in this contest and/or accepting the rewards in your local, regional, and national jurisdictions.</li>
+        <li>Contestants acknowledge that the rules may be changed at any time for any reason and/or participants may be disqualified for any reason. At no point should participants make any assumptions pertaining to the rules and/or results of the contest.</li>
+        <li><b>Good luck!</b></li>
+        </ul>
+
+
+
+      </b-modal>
     </div>
 
     <div id="contributors">
       <div class="contributor_container">
-        <div class='contributor_label'>Platinum Sponsors:</div>
-        <p>Expect new features from these Developers & Projects at/around 50 Million</p>
-        <ul>
-          <li>Dev Null Productions</li>
-          <li>Rabbit Kick Club</li>
-          <li>XRP Scan</li>
-          <li>BitHomp</li>
-          <li>XRPTipBot-Stats</li>
-          <li>XRP Toolkit</li>
+        <div class="contributor_header">
+          <div class='contributor_label' style="color: #A8A7AE;">Platinum Sponsors:</div>
+          <p><b>Expect new features from these Developers & Projects in celebration of the event!</b></p>
+        </div>
+        <ul class="contributor_list">
+          <li class="contributor_list_item"><a href="https://devnull.network"><img src="@/assets/logo-dnp.png" class="contributor_icon" />Dev Null Productions</a></li>
+          <li class="contributor_list_item"><a href="https://xrpscan.com"><img src="@/assets/logo-xrpscan.png" class="contributor_icon" />XRP Scan</a></li>
+          <li class="contributor_list_item"><a href="https://bithomp.com"><img src="@/assets/logo-bithomp.png" class="contributor_icon" />BitHomp</a></li>
+          <li class="contributor_list_item"><a href="https://rabbitkick.club/"><img src="@/assets/logo-rkc.png" class="contributor_icon" />Rabbit Kick Club</a></li>
+          <li class="contributor_list_item"><a href="https://xrptipbot-statistics.siedentopf.xyz"><img src="@/assets/logo-nixerffm.png" class="contributor_icon" />nixerFFM (XRPTipBot-Stats)</a></li>
+          <li class="contributor_list_item"><a href="https://www.xrptoolkit.com/"><img src="@/assets/logo-xrptoolkit.png" class="contributor_icon" />XRP Toolkit</a></li>
         </ul>
       </div>
 
       <div class="contributor_container">
-        <div class='contributor_label'>Gold Level Contributors:</div>
-        <p>Many thanks to these awesome supporters:</p>
-        <ul>
-          <li>Wietse Wind</li>
-          <li>XRPL Labs</li>
-          <li>Thomas Silkj.</li>
-          <li>...</li>
+        <div class="contributor_header">
+          <div class='contributor_label' style="color: gold;">Gold Level Contributors:</div>
+          <p><b>Many thanks to these awesome supporters</b></p>
+        </div>
+        <ul class='contributor_list'>
+          <li class="contributor_list_item"><a href="https://twitter.com/wietsewind"><img src="@/assets/logo-wietse.png" class="contributor_icon" />Wietse Wind</a></li>
+          <li class="contributor_list_item"><a href="https://twitter.com/Silkjaer"><img src="@/assets/logo-silkjaer.png"  class="contributor_icon"/>Thomas Silkjaer</a></li>
+          <li class="contributor_list_item"><a href="https://twitter.com/jeremy_87110"><img src="@/assets/logo-nooneyouknow.png"  class="contributor_icon"/>Jeremy87110</a></li>
+          <li class="contributor_list_item"><a href="https://twitter.com/KevinKing64"><img src="@/assets/logo-kevinking.png"  class="contributor_icon"/>KevinKing64</a></li>
         </ul>
       </div>
 
-      <div class="contributor_container">
-        <div class='contributor_label'>Community Level Supporters:</div>
-        <p>& the many more (too many to list here!)</p>
-        <ul>
-        <li>...</li>
-        </ul>
+      <div class="contributor_container" style="display: flex; flex-direction: column; justify-content: center;">
+        <div class="contributor_header">
+          <div class='contributor_label' style="color: #cd7f32">Community Level Supporters:</div>
+          <p><b>Too many to list here but we thank you all!</b></p>
+        </div>
       </div>
     </div>
   </div>
@@ -115,10 +176,18 @@ export default {
             rate : 0,
             now : this.$moment(new Date()),
             remaining_offset : 0,
-            ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed'};
+            ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed',
+            contest_email : '',
+            contest_account : '',
+            contest_account_valid : null,
+            contest_email_valid : null};
   },
 
   computed : {
+    have_current_ledger : function(){
+      return this.current_ledger > 0;
+    },
+
     countdown_days : function(){
       return this.projected_time.diff(this.now, 'days');
     },
@@ -148,6 +217,29 @@ export default {
 
     remaining_ledgers : function(){
       return TARGET - this.current_ledger;
+    },
+  },
+
+  ///
+
+  watch : {
+    contest_account : function(){
+      if(this.contest_account == ""){
+        this.contest_account_valid = null;
+        return;
+      }
+
+      this.contest_account_valid = false;
+      this.$socket.sendObj({'command' : 'account_info', 'account' : this.contest_account});
+    },
+
+    contest_email : function(){
+      if(this.contest_email == ""){
+        this.contest_email_valid = null;
+        return;
+      }
+
+      this.contest_email_valid =  (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.contest_email));
     }
   },
 
@@ -158,15 +250,23 @@ export default {
     }.bind(this), 1000);
 
     this.$options.sockets.onmessage = function(m){
-      var ledger = JSON.parse(m.data)["ledger_index"];
-      if(!ledger) return;
-      this.current_ledger = ledger;
+      var data = JSON.parse(m.data);
+      if(data["result"] && data["result"]["account_data"]){
+console.log("!")
+        this.contest_account_valid = true;
+        return;
+      }
+
+      var ledger = data["ledger_index"];
+      if(ledger)
+        this.current_ledger = ledger;
     }.bind(this);
 
     this.$options.sockets.onopen = function(){
       this.$socket.sendObj({command : 'subscribe', streams : ['ledger']})
     }.bind(this);
 
+    // TODO periodically resync & only use last N data points
     this.$http.get(this.ledgers_closed_uri)
               .then(function(d){
                 var ledgers = Object.values(d.body['ledgers_closed']);
@@ -214,6 +314,12 @@ html, body{
   background-color: rgba(48, 47, 47, 0.5);
   font-family: Lobster Two,cursive;
   font-size: 70px;
+  margin-bottom: 0;
+}
+
+#countdown_subtitle{
+  background-color: rgba(48, 47, 47, 0.5);
+  font-family: Lobster Two,cursive;
 }
 
 #subcountdown_container{
@@ -256,21 +362,68 @@ html, body{
 }
 
 #contest_entry{
-  background-color: red;
-  min-height: 250px;
+  background-color: white;
   flex-grow: 1;
+  padding: 25px;
+  min-height: 450px;
+}
+
+#contest_rules{
+  font-size: 0.6em;
+  color: blue;
+  font-family: Helvetica,Arial,Sans-Serif;
+  cursor: pointer;
 }
 
 #contributors{
   background: blue;
   display: flex;
   justify-content: space-evenly;
+
+  background-image: url('./assets/concert.jpg');
+  background-size: 100% 100%;
+
+  color: white;
+  padding: 25px;
 }
 
 .contributor_container{
-  background: green;
+  background-color: rgba(0, 0, 0, 0.44);
   text-align: center;
-  padding: 15px;
+  padding: 25px;
   width: 25%;
+}
+
+.contributor_header{
+  min-height: 150px;
+}
+
+.contributor_label{
+  font-weight: bold;
+  font-size: 1.6em;
+  min-height: 50px;
+}
+
+.contributor_list{
+  list-style: none;
+  border-top: 1px solid white;
+  padding-top: 10px;
+  padding-left: 0;
+  text-align: justify;
+}
+
+.contributor_list_item{
+  margin: 10px;
+}
+
+.contributor_list_item a,
+.contributor_list_item a:hover{
+  color: white;
+}
+
+.contributor_icon{
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 }
 </style>
