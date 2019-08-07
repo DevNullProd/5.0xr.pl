@@ -33,9 +33,31 @@
         </div>
       </div>
 
+      <div id="how_computed" v-b-modal.how_computed_modal>
+        How is this computed?
+      </div>
+
+      <b-modal id="how_computed_modal" title="How is this computed?" ok-only>
+        <p class="my-4">
+        While the XRP Ledger implements <b>Deterministic Consensus Validation</b>,
+        the actual duration is negotiated on a ledger-by ledger basis.
+        Ledger validation cycles can vary in length and typically run from <b>2 to 4 seconds</b>.<br/><br/>
+
+        Because of this we don't know the exact time of when the <b>50 Million'th Ledger</b> will occur but
+        for the purposes of this website we <b>average the <a :href="ledgers_closed_uri">number of ledgers closed</a> over the last
+        few hours</b> and use the validation rate in combination with the remaining ledgers to project
+        forward.<br/><br/>
+
+        You will see jumpiness though as we sync ledgers from the live network and the close
+        time varies... we apologize for the inconvenience...
+        </p>
+      </b-modal>
+
       <div id="ledger_status_container">
         <span id="current_ledger">Current Ledger: {{current_ledger | delim}}</span><br/>
-        <span id="remaining_ledgers">Remaining: {{remaining_ledgers | delim}}</span>
+        <span id="remaining_ledgers">Remaining: {{remaining_ledgers | delim}} Ledgers</span><br/>
+        <span id="projected_time">Projected Time: {{projected_time}}</span>
+        <br/>
       </div>
     </div>
 
@@ -89,24 +111,39 @@ export default {
   },
 
   data(){
-    return {current_ledger : 0};
+    return {current_ledger : 0,
+            rate : 0,
+            now : this.$moment(new Date()),
+            remaining_offset : 0,
+            ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed'};
   },
 
   computed : {
     countdown_days : function(){
-      return 0;
+      return this.projected_time.diff(this.now, 'days');
     },
 
     countdown_hours : function(){
-      return 0;
+      return this.projected_time.diff(this.now, 'hours') - this.countdown_days * 24;
     },
 
     countdown_mins : function(){
-      return 0;
+      return this.projected_time.diff(this.now, 'minutes') - this.countdown_days * 24 * 60
+                                                           - this.countdown_hours * 60;
     },
 
     countdown_secs : function(){
-      return 0;
+      return this.projected_time.diff(this.now, 'seconds') - this.countdown_days * 24 * 60 * 60
+                                                           - this.countdown_hours * 60 * 60
+                                                           - this.countdown_mins * 60;
+    },
+
+    projected_time : function(){
+      return this.now.clone().add(this.remaining_time, 'seconds');
+    },
+
+    remaining_time : function(){
+      return this.remaining_ledgers / this.rate - this.remaining_offset;
     },
 
     remaining_ledgers : function(){
@@ -115,6 +152,11 @@ export default {
   },
 
   created : function(){
+    setInterval(function(){
+      this.now = this.$moment(new Date());
+      this.remaining_offset += 1;
+    }.bind(this), 1000);
+
     this.$options.sockets.onmessage = function(m){
       var ledger = JSON.parse(m.data)["ledger_index"];
       if(!ledger) return;
@@ -125,7 +167,16 @@ export default {
       this.$socket.sendObj({command : 'subscribe', streams : ['ledger']})
     }.bind(this);
 
-    // get rate stats...
+    this.$http.get(this.ledgers_closed_uri)
+              .then(function(d){
+                var ledgers = Object.values(d.body['ledgers_closed']);
+                var sum = 0;
+                for(var l = 0; l < ledgers.length; l++)
+                  sum += parseInt(ledgers[l]);
+                var avg = parseFloat(sum)/ledgers.length;
+                this.rate = avg/300;
+                this.remaining_offset = 0;
+              }.bind(this));
   }
 }
 </script>
@@ -156,7 +207,6 @@ html, body{
   background-size: 100% 100%;
   color: white;
   padding: 25px;
-  min-height: 450px;
 }
 
 #countdown_title{
@@ -189,6 +239,13 @@ html, body{
   font-size: 1.4em;
   background: rgba(40,50,61,.62);
   font-family: Helvetica,Arial,Sans-Serif;
+}
+
+#how_computed{
+  color: blue;
+  font-family: Helvetica,Arial,Sans-Serif;
+  font-size: 0.8em;
+  cursor: pointer;
 }
 
 #ledger_status_container{

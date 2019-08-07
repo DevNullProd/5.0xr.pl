@@ -5,6 +5,10 @@ Vue.config.productionTip = false
 
 ///
 
+Vue.use(require('vue-moment'));
+
+///
+
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
