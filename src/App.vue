@@ -46,7 +46,7 @@
       <b-modal id="how_computed_modal" title="How is this computed?" ok-only>
         <p class="my-4">
         While the XRP Ledger implements <b>Deterministic Consensus Validation</b>,
-        the actual duration is negotiated on a ledger-by ledger basis.
+        the actual duration is negotiated on a ledger-by-ledger basis.
         Ledger validation cycles can vary in length and typically run from <b>2 to 4 seconds</b>.<br/><br/>
 
         Because of this we don't know the exact time of when the <b>50 Million'th Ledger</b> will occur but
@@ -68,60 +68,22 @@
     </div>
 
     <div id="contest_entry">
-      <h2>To celebrate 50 Million, <b>we're giving away 50 XRP to 50 lucky winners!</b></h2>
-      <div>To enter this contest simply fill out this form with a valid email and valid (<b>already activated</b>) XRP ledger address!</div>
+      <h3>To celebrate 50 Million, <b>we've created 5 XRP accounts and have locked away increasing prize amounts!</b></h3>
+      <h4><b>Want a private key?!?</b> A series of 5 puzzles will be posted here, solve one to have a shot at the prize!</h4>
+      <p><i>Make sure to have a paper & pen handy!</i></p>
 
-       <b-container fluid class="p-3">
-         <b-row class="m-3">
-           <b-col cols=3>
-             <label for="contest_email">Email</label>
-           </b-col>
+      <div id="current_puzzle">
+        <h2 style="color: blue"  v-if="puzzle_completed()">Puzzle Completed!</h2>
+        <h2 style="color: red"  v-if="!puzzle_active()">New Puzzle Coming Soon!</h2>
 
-           <b-col>
-             <b-form-input id="contest_email" v-model="contest_email" placeholder="Enter your email" type="email" :state="contest_email_valid"></b-form-input>
-           </b-col>
-         </b-row>
-
-         <b-row class="m-3">
-           <b-col cols=3>
-             <label for="contest_account">XRP Account</label>
-           </b-col>
-
-           <b-col>
-             <b-form-input id="contest_account" v-model="contest_account" placeholder="Enter your XRP account" :state="contest_account_valid"></b-form-input>
-           </b-col>
-         </b-row>
-
-         <b-row>
-           <b-col>
-             <b-button :disabled="!contest_email_valid || !contest_account_valid">Submit</b-button>
-           </b-col>
-         </b-row>
-       </b-container>
-
-       <div id="contest_rules"  v-b-modal.contest_rules_modal>
-         By submitting you are agreeing to the mumbo-jumbo
-       </div>
-
-      <b-modal id="contest_rules_modal" title="Contest Rules" ok-only>
-        <p><i>You're actually reading this?!</i>&nbsp;<b>Awesome</b>!</p>
-
-        <ul>
-        <li>To have a chance at winning the prize amount, simply fill out the form on this page with a <b>valid email and valid XRP address</b></li>
-        <li>For an email to be valid it must be able to accept incoming mail from systems related to our contest and allow you to follow links sent through such</li>
-        <li>Emails from temporary and/or masking services will be rejected (eg. Guerrilla Mail, temp-mail, etc)</li>
-        <li>For an XRP account to be valid it must already be activated and be in good state (satisfying minimum reserve requirements) upon contest entry</li>
-        <li><b>ONLY ONE ENTRY PER INDIVIDUAL</b> - If we catch multiple entries being submitted on the behalf of one or more individuals they will all be rejected!</li>
-        <li>Upon arrival of the 50 Million'th ledger, no more contest entries will be accepted and we will randomly pick 50 winners from the pool of valid entries</li>
-        <li>Winners will be sent 50 XRP each via the specified accounts shortly after</li>
-        <li><b>By entering this contest, you absolve the organizers of any and all legal and financial liabilities</b>. You are verifying that you are of legal age to participate in these sorts of contests and no other legal-barriers prohibit you from participating in this contest and/or accepting the rewards in your local, regional, and national jurisdictions.</li>
-        <li>Contestants acknowledge that the rules may be changed at any time for any reason and/or participants may be disqualified for any reason. At no point should participants make any assumptions pertaining to the rules and/or results of the contest.</li>
-        <li><b>Good luck!</b></li>
-        </ul>
-
-
-
-      </b-modal>
+        <div v-else>
+          <h4 style="color: blue">Challenge #{{puzzle_number}}</h4>
+          <p><b>Time Remaining</b>: {{puzzle_time_remaining}}</p>
+          <img :src="puzzle_img" />
+          <p style="margin: 0">Think you know the answer?! Email your submission to <a href="mailto:devnullproductions@gmail.com">Dev Null Productions</a></p>
+          <p style="color: red; margin: 0;">Only one submission accepted per email per challenge... so choose carefully!</p>
+        </div>
+      </div>
     </div>
 
     <div id="contributors">
@@ -135,7 +97,7 @@
           <li class="contributor_list_item"><a href="https://xrpscan.com"><img src="@/assets/logo-xrpscan.png" class="contributor_icon" />XRP Scan</a></li>
           <li class="contributor_list_item"><a href="https://bithomp.com"><img src="@/assets/logo-bithomp.png" class="contributor_icon" />BitHomp</a></li>
           <li class="contributor_list_item"><a href="https://rabbitkick.club/"><img src="@/assets/logo-rkc.png" class="contributor_icon" />Rabbit Kick Club</a></li>
-          <li class="contributor_list_item"><a href="https://xrptipbot-statistics.siedentopf.xyz"><img src="@/assets/logo-nixerffm.png" class="contributor_icon" />nixerFFM (XRPTipBot-Stats)</a></li>
+          <li class="contributor_list_item"><a href="https://xrptipbot-statistics.siedentopf.xyz"><img src="@/assets/logo-nixerffm.png" class="contributor_icon" />XRPTipBot-Stats</a></li>
           <li class="contributor_list_item"><a href="https://www.xrptoolkit.com/"><img src="@/assets/logo-xrptoolkit.png" class="contributor_icon" />XRP Toolkit</a></li>
         </ul>
       </div>
@@ -177,10 +139,9 @@ export default {
             now : this.$moment(new Date()),
             remaining_offset : 0,
             ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed',
-            contest_email : '',
-            contest_account : '',
-            contest_account_valid : null,
-            contest_email_valid : null};
+            puzzle_number : 1,
+            puzzle_timeout :   null, // new Date("2019-08-08T15:15:00Z"),
+            puzzle_time_remaining : 0};
   },
 
   computed : {
@@ -218,45 +179,36 @@ export default {
     remaining_ledgers : function(){
       return TARGET - this.current_ledger;
     },
+
+    puzzle_img : function(){
+      return require('./assets/challenge' + this.puzzle_number + ".png");
+    },
+  },
+
+  methods : {
+    puzzle_active : function(){
+      return !!this.puzzle_timeout && (new Date() < this.puzzle_timeout);
+    },
+
+    puzzle_completed : function(){
+      return !!this.puzzle_timeout && (new Date() >= this.puzzle_timeout);
+    },
   },
 
   ///
-
-  watch : {
-    contest_account : function(){
-      if(this.contest_account == ""){
-        this.contest_account_valid = null;
-        return;
-      }
-
-      this.contest_account_valid = false;
-      this.$socket.sendObj({'command' : 'account_info', 'account' : this.contest_account});
-    },
-
-    contest_email : function(){
-      if(this.contest_email == ""){
-        this.contest_email_valid = null;
-        return;
-      }
-
-      this.contest_email_valid =  (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.contest_email));
-    }
-  },
 
   created : function(){
     setInterval(function(){
       this.now = this.$moment(new Date());
       this.remaining_offset += 1;
+
+      var ms = this.$moment(this.puzzle_timeout).diff(this.now);
+      var d = this.$moment.duration(ms);
+      this.puzzle_time_remaining = Math.floor(d.asHours()) + " Hours " + this.$moment.utc(ms).format("mm") + " Minutes " + this.$moment.utc(ms).format("ss") + " Seconds";
     }.bind(this), 1000);
 
     this.$options.sockets.onmessage = function(m){
       var data = JSON.parse(m.data);
-      if(data["result"] && data["result"]["account_data"]){
-console.log("!")
-        this.contest_account_valid = true;
-        return;
-      }
-
       var ledger = data["ledger_index"];
       if(ledger)
         this.current_ledger = ledger;
@@ -365,14 +317,17 @@ html, body{
   background-color: white;
   flex-grow: 1;
   padding: 25px;
-  min-height: 450px;
 }
 
-#contest_rules{
-  font-size: 0.6em;
-  color: blue;
-  font-family: Helvetica,Arial,Sans-Serif;
-  cursor: pointer;
+#current_puzzle{
+  min-height: 250px;
+  border: 1px solid black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 25px;
 }
 
 #contributors{
