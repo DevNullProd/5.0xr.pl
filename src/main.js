@@ -25,11 +25,18 @@ Vue.use(VueNativeSock, "wss://s1.ripple.com:443", { format : 'json', reconnectio
 
 ///
 
+import VueMq from 'vue-mq'
+Vue.use(VueMq, {});
+
+///
+
 Vue.filter('delim', function(value) {
   return parseFloat(value).toLocaleString()
 });
 
 ///
+
+import("../public/pyro.css")
 
 new Vue({
   render: h => h(App),

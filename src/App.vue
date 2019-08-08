@@ -1,40 +1,53 @@
 <template>
   <!-- TODO: fork me on github -->
-  <div id="app">
+  <div id="app" :class="$mq">
     <div id="countdown_container">
-      <h2 id="countdown_title">Countdown to<br/>50 Million XRP Ledgers!</h2>
-      <h4 id="countdown_subtitle">A XRP Community Celebration</h4>
+      <div v-if="!countdown_reached">
+        <h2 id="countdown_title">Countdown to<br/>50 Million XRP Ledgers!</h2>
+        <h4 id="countdown_subtitle">A XRP Community Celebration</h4>
+      </div>
+
+      <div v-else class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+
+        <h1 id="countdown_title" class="blinking" style="padding: 50px;">50 Million Ledgers!!!!!!!</h1>
+      </div>
 
       <div class="text-center" v-if="!have_current_ledger">
         <b-spinner />
       </div>
 
       <div id="subcountdown_container" v-if="have_current_ledger">
-        <div class='subcountdown'>
-          <div class='subcountdown_counter'>{{countdown_days}}</div>
-          <div class='subcountdown_label'>
-            Days
+        <div class='subcountdown_subcontainer'>
+          <div class='subcountdown'>
+            <div class='subcountdown_counter'>{{countdown_days}}</div>
+            <div class='subcountdown_label'>
+              Days
+            </div>
+          </div>
+
+          <div class='subcountdown'>
+            <div class='subcountdown_counter'>{{countdown_hours}}</div>
+            <div class='subcountdown_label'>
+              Hours
+            </div>
           </div>
         </div>
 
-        <div class='subcountdown'>
-          <div class='subcountdown_counter'>{{countdown_hours}}</div>
-          <div class='subcountdown_label'>
-            Hours
+        <div class='subcountdown_subcontainer'>
+          <div class='subcountdown'>
+            <div class='subcountdown_counter'>{{countdown_mins}}</div>
+            <div class='subcountdown_label'>
+              Minutes
+            </div>
           </div>
-        </div>
 
-        <div class='subcountdown'>
-          <div class='subcountdown_counter'>{{countdown_mins}}</div>
-          <div class='subcountdown_label'>
-            Minutes
-          </div>
-        </div>
-
-        <div class='subcountdown'>
-          <div class='subcountdown_counter'>{{countdown_secs}}</div>
-          <div class='subcountdown_label'>
-            Seconds
+          <div class='subcountdown'>
+            <div class='subcountdown_counter'>{{countdown_secs}}</div>
+            <div class='subcountdown_label'>
+              Seconds
+            </div>
           </div>
         </div>
       </div>
@@ -69,8 +82,8 @@
 
     <div id="contest_entry">
       <h3>To celebrate 50 Million, <b>we've created 5 XRP accounts and have locked away increasing prize amounts!</b></h3>
-      <h4><b>Want a private key?!?</b> A series of 5 puzzles will be posted here, solve one to have a shot at the prize!</h4>
-      <p><i>Make sure to have a paper & pen handy!</i></p>
+      <h4><b>Want to win a private key?!?</b> A series of 5 puzzles will be posted here, solve one to have a shot at the prize!</h4>
+      <p><i>Make sure to have a pen & paper handy!</i></p>
 
       <div id="current_puzzle">
         <h2 style="color: blue"  v-if="puzzle_completed()">Puzzle Completed!</h2>
@@ -150,22 +163,26 @@ export default {
     },
 
     countdown_days : function(){
-      return this.projected_time.diff(this.now, 'days');
+      var days = this.projected_time.diff(this.now, 'days');
+      return days < 0 ? 0 : days;
     },
 
     countdown_hours : function(){
-      return this.projected_time.diff(this.now, 'hours') - this.countdown_days * 24;
+      var hours = this.projected_time.diff(this.now, 'hours') - this.countdown_days * 24;
+      return hours < 0 ? 0 : hours;
     },
 
     countdown_mins : function(){
-      return this.projected_time.diff(this.now, 'minutes') - this.countdown_days * 24 * 60
-                                                           - this.countdown_hours * 60;
+      var mins = this.projected_time.diff(this.now, 'minutes') - this.countdown_days * 24 * 60
+                                                               - this.countdown_hours * 60;
+      return mins < 0 ? 0 : mins;
     },
 
     countdown_secs : function(){
-      return this.projected_time.diff(this.now, 'seconds') - this.countdown_days * 24 * 60 * 60
-                                                           - this.countdown_hours * 60 * 60
-                                                           - this.countdown_mins * 60;
+      var secs = this.projected_time.diff(this.now, 'seconds') - this.countdown_days * 24 * 60 * 60
+                                                               - this.countdown_hours * 60 * 60
+                                                               - this.countdown_mins * 60;
+      return secs < 0 ? 0 : secs;
     },
 
     projected_time : function(){
@@ -178,6 +195,10 @@ export default {
 
     remaining_ledgers : function(){
       return TARGET - this.current_ledger;
+    },
+
+    countdown_reached : function(){
+      return this.remaining_ledgers <= 0;
     },
 
     puzzle_img : function(){
@@ -250,6 +271,17 @@ html, body{
   flex-direction: column;
 }
 
+.blinking{
+    animation:blinkingText 1.2s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: red;    }
+    25%{   color: transparent; }
+    50%{   color: blue;    }
+    75%{   color: transparent; }
+    100%{  color: red;    }
+}
+
 #countdown_container{
   display: flex;
   flex-direction: column;
@@ -261,12 +293,20 @@ html, body{
   padding: 25px;
 }
 
+.sm #countdown_container{
+  padding: 10px;
+}
+
 #countdown_title{
   border-radius: 3px;
   background-color: rgba(48, 47, 47, 0.5);
   font-family: Lobster Two,cursive;
   font-size: 70px;
   margin-bottom: 0;
+}
+
+.sm #countdown_title{
+  font-size: 32px;
 }
 
 #countdown_subtitle{
@@ -277,6 +317,15 @@ html, body{
 #subcountdown_container{
   display: flex;
   justify-content: center;
+}
+
+.sm #subcountdown_container{
+  flex-direction: column;
+}
+
+.subcountdown_subcontainer{
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .subcountdown{
@@ -291,12 +340,20 @@ html, body{
   font-family: Roboto,sans-serif;
 }
 
+.sm .subcountdown_counter{
+  font-size: 1.5em;
+}
+
 .subcountdown_label{
   margin-top: 3px;
   padding: 5px;
   font-size: 1.4em;
   background: rgba(40,50,61,.62);
   font-family: Helvetica,Arial,Sans-Serif;
+}
+
+.sm .subcountdown_label{
+  font-size: 0.8em
 }
 
 #how_computed{
@@ -306,6 +363,10 @@ html, body{
   cursor: pointer;
 }
 
+.sm #how_computed{
+  font-size: 0.7em;
+}
+
 #ledger_status_container{
   font-family: Lobster Two;
   font-size: 30px;
@@ -313,10 +374,23 @@ html, body{
   font-weight: bold;
 }
 
+.sm #ledger_status_container{
+  font-size: 16px;
+}
+
+
 #contest_entry{
   background-color: white;
   flex-grow: 1;
   padding: 25px;
+}
+
+.sm #contest_entry h3{
+  font-size: 1.2em;
+}
+
+.sm #contest_entry h4{
+  font-size: 0.9em;
 }
 
 #current_puzzle{
@@ -342,11 +416,20 @@ html, body{
   padding: 25px;
 }
 
+.sm #contributors{
+  flex-direction: column;
+  background-image: url('./assets/fireworks.jpg');
+}
+
 .contributor_container{
   background-color: rgba(0, 0, 0, 0.44);
   text-align: center;
   padding: 25px;
   width: 25%;
+}
+
+.sm .contributor_container{
+  width: unset;
 }
 
 .contributor_header{
