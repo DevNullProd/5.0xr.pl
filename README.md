@@ -1,29 +1,20 @@
-# 50m
+# 50 Million XRP Ledgers
+## The Website
 
-## Project setup
+(http://5.0xr.pl)[http://5.0xr.pl]
+
+## The backend
+
+This is a VueJS based project. To setup & run use **yarn** to install components:
+
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+To view the site locally run the embedded server:
+
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## PRs will be addressed quickly and fixes pushed immediately!
