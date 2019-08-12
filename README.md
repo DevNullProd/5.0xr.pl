@@ -1,7 +1,7 @@
 # 50 Million XRP Ledgers
 ## The Website
 
-(http://5.0xr.pl)[http://5.0xr.pl]
+[http://5.0xr.pl](http://5.0xr.pl)
 
 ## The backend
 
