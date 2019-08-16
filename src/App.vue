@@ -125,6 +125,7 @@
           <li class="contributor_list_item"><a href="https://twitter.com/Silkjaer"><img src="@/assets/logo-silkjaer.png"  class="contributor_icon"/>Thomas Silkjaer</a></li>
           <li class="contributor_list_item"><a href="https://twitter.com/jeremy_87110"><img src="@/assets/logo-nooneyouknow.png"  class="contributor_icon"/>Jeremy87110</a></li>
           <li class="contributor_list_item"><a href="https://twitter.com/KevinKing64"><img src="@/assets/logo-kevinking.png"  class="contributor_icon"/>KevinKing64</a></li>
+          <li class="contributor_list_item"><a href="https://twitter.com/PaperStProjects"><img src="@/assets/logo-paperstprojects.png"  class="contributor_icon"/>PaperStProjects</a></li>
         </ul>
       </div>
 
