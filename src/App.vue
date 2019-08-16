@@ -233,8 +233,10 @@ export default {
     this.$options.sockets.onmessage = function(m){
       var data = JSON.parse(m.data);
       var ledger = data["ledger_index"];
-      if(ledger)
+      if(ledger){
         this.current_ledger = ledger;
+        this.remaining_offset = 0;
+      }
     }.bind(this);
 
     this.$options.sockets.onopen = function(){
