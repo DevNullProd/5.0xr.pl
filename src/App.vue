@@ -272,7 +272,6 @@ html, body{
 }
 
 #app {
-  height: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
