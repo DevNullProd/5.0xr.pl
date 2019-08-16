@@ -90,11 +90,13 @@
         <h2 style="color: red"  v-if="!puzzle_active()">New Puzzle Coming Soon!</h2>
 
         <div v-else>
-          <h4 style="color: blue">Challenge #{{puzzle_number}}</h4>
+          <h4 style="color: blue">Challenge #{{puzzle_number}} - Win {{puzzle_payout}} XRP!</h4>
           <p><b>Time Remaining</b>: {{puzzle_time_remaining}}</p>
           <img :src="puzzle_img" style="width: 100%;"/>
-          <p style="margin: 0">Think you know the answer?! Email your submission to <a href="mailto:devnullproductions@gmail.com">Dev Null Productions</a></p>
+          <p style="margin: 0">Think you know the answer?! Email your submission to <a href="mailto:devnullproductions@gmail.com">Dev Null Productions</a>.</p>
+          <p style="margin: 0">A random winner will be selected from the pool of correct answers.</p>
           <p style="color: red; margin: 0;">Only one submission accepted per email per challenge... so guess carefully!</p>
+          <p style="font-size: 0.7em; margin: 0">By entering this contest you agree that you are of legal age and standing to participate in such giveaways and to possess the XRP Digital Asset.<br/>By entering this contest you absolve the organizers of any and all legal and financial liabilities</p>
         </div>
       </div>
     </div>
@@ -154,8 +156,9 @@ export default {
             remaining_offset : 0,
             ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed',
             puzzle_number : 1,
+            puzzle_payout : 50,
             //puzzle_timeout :   null,
-            puzzle_timeout :   new Date("2019-08-10T15:15:00Z"),
+            puzzle_timeout :   new Date("2019-08-20T00:00:00Z"),
             puzzle_time_remaining : 0};
   },
 
