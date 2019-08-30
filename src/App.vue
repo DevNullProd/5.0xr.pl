@@ -155,9 +155,9 @@ export default {
             now : this.$moment(new Date()),
             remaining_offset : 0,
             ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed',
-            puzzle_number : 2,
-            puzzle_payout : 100,
-            puzzle_timeout :   new Date("2019-08-25T00:00:00Z"),
+            puzzle_number : 3,
+            puzzle_payout : 150,
+            puzzle_timeout :   new Date("2019-09-03T00:00:00Z"),
             puzzle_time_remaining : 0};
   },
 
