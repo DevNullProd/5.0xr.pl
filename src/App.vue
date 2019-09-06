@@ -92,7 +92,26 @@
         <div v-else>
           <h4 style="color: blue">Challenge #{{puzzle_number}} - Win {{puzzle_payout}} XRP!</h4>
           <p><b>Time Remaining</b>: {{puzzle_time_remaining}}</p>
-          <img :src="puzzle_img" style="width: 100%;"/>
+
+          <div>
+          <p>
+            The answer to the challenge is in this image...
+          </p>
+
+          <p>
+            Can you spot the <b>difference</b>...?!
+          </p>
+
+          <p>
+            <b>Hint</b>: You won't be able to see it with your eyes!
+          </p>
+          </div>
+
+          <div style="display: flex; justify-content: space-evenly;">
+          <img :src="puzzle_img1" style="width: 40%;"/>
+          <img :src="puzzle_img2" style="width: 40%;"/>
+          </div>
+
           <p style="margin: 0">Think you know the answer?! Email your submission to <a href="mailto:devnullproductions@gmail.com">Dev Null Productions</a>.</p>
           <p style="margin: 0">A random winner will be selected from the pool of correct answers.</p>
           <p style="color: red; margin: 0;">Only one submission accepted per email per challenge... so guess carefully!</p>
@@ -156,9 +175,9 @@ export default {
             now : this.$moment(new Date()),
             remaining_offset : 0,
             ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed',
-            puzzle_number : 3,
-            puzzle_payout : 150,
-            puzzle_timeout :   new Date("2019-09-03T00:00:00Z"),
+            puzzle_number : 4,
+            puzzle_payout : 200,
+            puzzle_timeout :   new Date("2019-09-09T00:00:00Z"),
             puzzle_time_remaining : 0};
   },
 
@@ -206,8 +225,12 @@ export default {
       return this.remaining_ledgers <= 0;
     },
 
-    puzzle_img : function(){
-      return require('./assets/challenge' + this.puzzle_number + ".png");
+    puzzle_img1 : function(){
+      return require('./assets/xrp-moon-orig.png');
+    },
+
+    puzzle_img2 : function(){
+      return require('./assets/xrp-moon-new.png');
     },
   },
 
