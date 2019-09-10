@@ -107,9 +107,9 @@
           </p>
           </div>
 
-          <div style="display: flex; justify-content: space-evenly;">
-          <img :src="puzzle_img1" style="width: 40%;"/>
-          <img :src="puzzle_img2" style="width: 40%;"/>
+          <div id="puzzle_imgs" style="display: flex; justify-content: space-evenly;" :class="$mq">
+          <img :src="puzzle_img1" :class="$mq" class="puzzle_img"/>
+          <img :src="puzzle_img2" :class="$mq" class="puzzle_img"/>
           </div>
 
           <p style="margin: 0">Think you know the answer?! Email your submission to <a href="mailto:devnullproductions@gmail.com">Dev Null Productions</a>.</p>
@@ -496,5 +496,19 @@ html, body{
   width: 50px;
   height: 50px;
   margin-right: 10px;
+}
+
+#puzzle_imgs.sm{
+  flex-direction: column;
+}
+
+.puzzle_img{
+  width: 40%;
+}
+
+
+.sm.puzzle_img{
+  width: 100%;
+  margin-top: 10px;
 }
 </style>
