@@ -94,22 +94,17 @@
           <p><b>Time Remaining</b>: {{puzzle_time_remaining}}</p>
 
           <div>
-          <p>
-            The answer to the challenge is in this image...
-          </p>
+            <p>Can you break the <b>cypher</b>?!</p>
+          </div>
 
-          <p>
-            Can you spot the <b>difference</b>...?!
-          </p>
-
-          <p>
-            <b>Hint</b>: You won't be able to see it with your eyes!
-          </p>
+          <div>
+            <p><b>Hint</b>: View the source Neo...</p>
           </div>
 
           <div id="puzzle_imgs" style="display: flex; justify-content: space-evenly;" :class="$mq">
-          <img :src="puzzle_img1" :class="$mq" class="puzzle_img"/>
-          <img :src="puzzle_img2" :class="$mq" class="puzzle_img"/>
+            <p><b>
+            DSJhOWwvPjoocCYodz05IDAvPyUrejMwJyY/PjEoNm83OmEkLCB3HAcZcwQ1PDs/Iy4/J31zED4tMDokbRIkOSVrdSczJG40LTxtMCpsNy09czQoOGs+MzE3KTksazA6Ky91ISdjJzd3KjcnM3gxLCoseCg9KHYjNzc/dzIlIHQ2NCksJXtldHM6MyI1ayNjIjt3c3JuFiE8MjwgMWEgKCg7bz0mMDUnKy9xYmBO
+            </b></p>
           </div>
 
           <p style="margin: 0">Think you know the answer?! Email your submission to <a href="mailto:devnullproductions@gmail.com">Dev Null Productions</a>.</p>
@@ -175,9 +170,9 @@ export default {
             now : this.$moment(new Date()),
             remaining_offset : 0,
             ledgers_closed_uri : 'https://api.xrp1ntel.com/report/300?metrics=ledgers_closed',
-            puzzle_number : 4,
-            puzzle_payout : 200,
-            puzzle_timeout :   new Date("2019-09-09T00:00:00Z"),
+            puzzle_number : 5,
+            puzzle_payout : 250,
+            puzzle_timeout :   new Date("2019-09-13T00:00:00Z"),
             puzzle_time_remaining : 0};
   },
 
