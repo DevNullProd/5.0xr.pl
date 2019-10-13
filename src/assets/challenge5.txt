@@ -1,0 +1,17 @@
+Rotated:
+Jr'q yvxr gb rkgraqrq tengvghqr gb gur KEC Pbzzhavgl, Evccyr Ynof, naq nyy bs gur arj sevraqf gung jr'ir znqr bire gur ynfg srj lrnef... urer'f gb 50 Zvyyvba zber yrqtref!!!
+
+Key:
+GPFHLVHBZPAJWORGBNNWZZGUIAIYYYDOPXACYRWWBZSTWFAWBXXKQSUHNSCVMKJVCGUIRUNZTEMRYLPXOSUZRKMVGEHHJKWOEHUKUDNEWPYVAXSEXIXOHZVZYQXWAWJTZFGICUKZSOAGGLECEYWFBNLWEKJBPAZJMIODTAAUNIPCAD
+
+XOR:
+"a9l/>:(p&(w=9 0/?%+z30'&?>1(6o7:a$, ws5<;?#.?'}s>-0:$m$9%ku'3$n4-<m0*l7-=s4(8k>317)9,k0:+/u!'c'7w*7'3x1,*,x(=(v#77?w2% t64),%{ets:3"5k#c";wsrn!<2< 1a ((;o=&05'+/qb`N
+Encoded:
+DSJhOWwvPjoocCYodz05IDAvPyUrejMwJyY/PjEoNm83OmEkLCB3HAcZcwQ1PDs/Iy4/J31zED4tMDokbRIkOSVrdSczJG40LTxtMCpsNy09czQoOGs+MzE3KTksazA6Ky91ISdjJzd3KjcnM3gxLCoseCg9KHYjNzc/dzIlIHQ2NCksJXtldHM6MyI1ayNjIjt3c3JuFiE8MjwgMWEgKCg7bz0mMDUnKy9xYmBO
+
+===
+
+Decoded & XOR back
+Jr'q yvxr gb rkgraqrq tengvghqr gb gur KEC Pbzzhavgl, Evccyr Ynof, naq nyy bs gur arj sevraqf gung jr'ir znqr bire gur ynfg srj lrnef... urer'f gb 50 Zvyyvba zber yrqtref!!!
+Rotated back:
+We'd like to extended gratitude to the XRP Community, Ripple Labs, and all of the new friends that we've made over the last few years... here's to 50 Million more ledgers!!!

@@ -101,7 +101,7 @@
             <p><b>Hint</b>: View the source Neo...</p>
           </div>
 
-          <div id="puzzle_imgs" style="display: flex; justify-content: space-evenly;" :class="$mq">
+          <div id="puzzle_imgs" style="display: flex; justify-content: space-evenly; word-break: break-all" :class="$mq">
             <p><b>
             DSJhOWwvPjoocCYodz05IDAvPyUrejMwJyY/PjEoNm83OmEkLCB3HAcZcwQ1PDs/Iy4/J31zED4tMDokbRIkOSVrdSczJG40LTxtMCpsNy09czQoOGs+MzE3KTksazA6Ky91ISdjJzd3KjcnM3gxLCoseCg9KHYjNzc/dzIlIHQ2NCksJXtldHM6MyI1ayNjIjt3c3JuFiE8MjwgMWEgKCg7bz0mMDUnKy9xYmBO
             </b></p>
