@@ -12,7 +12,7 @@
     "bootstrap-vue": "^2.0.0-rc.27",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
-    "vue-moment": "^4.0.0",
+    "vue-moment": "^4.1.0",
     "vue-mq": "^1.0.1",
     "vue-native-websocket": "^2.0.13",
     "vue-resource": "^1.5.1"
